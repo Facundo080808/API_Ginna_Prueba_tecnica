@@ -5,5 +5,8 @@ export const TaskErrors = {
     ERROR_IDS: "Ocurrió un error al obtener las tareas, intente de nuevo.",
     UPDATE_ERROR: "Ocurrió un error al actualizar la tarea, intente de nuevo.",
     DELETE_ERROR: "Ocurrió un error al eliminar la tarea, intente de nuevo.",
+    NO_ID_ERROR:"El usuario no proporciono una id valida, intente de nuevo",
+    PARAMETERS:
+    "Los campos: title, description y status son requeridos.",
   };
   

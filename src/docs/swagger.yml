@@ -1,0 +1,301 @@
+openapi: 3.0.0
+info:
+  title: Task manager API
+  description: Documentación de la API para el sistema de tareas.
+  version: 1.0.0
+servers:
+  - url: https://whatclick-backend-2xwn.onrender.com/api
+    description: Servidor local
+paths:
+    /tasks/create:
+      post:
+        tags:
+          - Tasks
+        summary: Crear un Task
+        description: Endpoint para crear un Task en el sistema.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/Task'
+        responses:
+          '201':
+            description: Task creada exitosamente.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Task'
+          '400':
+            description: Campos vacios.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    error:
+                      type: string
+                      example: "campos vacios : {campo}"                  
+
+          '500':
+            description: Error interno del servidor.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "Error interno del servidor."
+  
+    /tasks/:
+      get:
+        summary: Obtener una lista de Tasks
+        description: Retorna los detalles de una lista de Tasks.
+        tags:
+          - Tasks
+        responses:
+          '200':
+            description: Tasks encontradas exitosamente.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Task'
+
+          '500':
+            description: Error interno del servidor.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "Error interno del servidor."
+  
+    /tasks/{id}:
+      get:
+        summary: Obtener un Task por ID
+        description: Retorna los detalles de un Task específica buscándola por su ID.
+        tags:
+          - Tasks
+        parameters:
+          - in: path
+            name: id
+            required: true
+            schema:
+              type: string
+            description: ID del Task a buscar.
+        responses:
+          '200':
+            description: Task encontrada exitosamente.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Task'
+          '400':
+            description: Id invalida.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "El usuario no proporciono una id valida, intente de nuevo"
+          '404':
+            description: Not found.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "Tarea no encontrada."         
+          '500':
+            description: Error interno del servidor.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "Error interno del servidor."
+  
+   
+      
+    /tasks/put/{id}:
+      put:
+        tags:
+          - Tasks
+        summary: Actualizar un Task
+        description: Endpoint para actualizar un Task existente.
+        parameters:
+          - name: id
+            in: path
+            required: true
+            description: ID del Task a actualizar.
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/Task'
+        responses:
+          '201':
+            description: Task actualizada exitosamente.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    data:
+                      $ref: '#/components/schemas/Task'
+          '400':
+            description: Id invalida.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "El usuario no proporciono una id valida, intente de nuevo"
+          '404':
+            description: Not found.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "Tarea no encontrada."         
+          '500':
+            description: Error interno del servidor.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "Error interno del servidor."
+  
+    /tasks/delete/{id}:
+      delete:
+        tags:
+          - Tasks
+        summary: Eliminar un Task
+        description: Endpoint para eliminar un Task existente.
+        parameters:
+          - name: id
+            in: path
+            required: true
+            description: ID del Task a eliminar.
+            schema:
+              type: string
+        responses:
+          '203':
+            description: Task eliminada correctamente.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Task'
+          '400':
+            description: Id invalida.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "El usuario no proporciono una id valida, intente de nuevo"
+          '404':
+            description: Not found.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "Tarea no encontrada."         
+          '500':
+            description: Error interno del servidor.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    success:
+                      type: boolean
+                      example: false
+                    message:
+                      type: string
+                      example: "Error interno del servidor."
+  
+components:
+  schemas:
+    Task:
+     type: object
+     properties:
+        id:
+          type: string
+          example: 64a67b2a3f1c9b5a4d123456
+        title:
+          type: string
+          example: Tarea1
+        description:
+          type: string
+          example: "Tarea numero 1"
+        state:
+          type: boolean
+          example: false
+  
